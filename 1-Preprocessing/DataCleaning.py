@@ -3,7 +3,7 @@ import numpy as np
 
 def main():
     names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity'] # Nome das colunas 
-    features  = ['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time'] # Define as colunas que serão  utilizadas
+    features  = ['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity'] # Define as colunas que serão  utilizadas
     output_file = '0-Datasets/garments_worker_productivityClear.data'
     input_file = '0-Datasets/garments_worker_productivity.csv'
     df = pd.read_csv(input_file, # Nome do arquivo com dados
