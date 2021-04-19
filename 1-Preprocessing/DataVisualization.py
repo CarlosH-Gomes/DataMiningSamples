@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 def main():
     # Faz a leitura do arquivo
     names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity'] # Nome das colunas 
-    features  = ['targeted_productivity','smv','wip','over_time','incentive','idle_time','actual_productivity'] # Define as colunas que serão  utilizadas
+    features  = ['team','targeted_productivity','smv','wip','over_time','incentive','idle_time','actual_productivity'] # Define as colunas que serão  utilizadas
     input_file = '0-Datasets/garments_worker_productivityClear.data'
-    target = 'team'
+    target = 'no_of_workers'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
                      names = names) # Nome das colunas                      
     
@@ -21,15 +21,22 @@ def main():
     plt.hist(df[target], 5, rwidth=0.9)
     plt.show()
 
-    
+    #Número de pessoas no time durante a semana
+    plt.title('Número de pessoas no time durante a semana')
+    dados = df.groupby(['day']).no_of_workers.mean()
+    plt.plot(dados)
+    plt.show()
+
    
     #produtividade dias da semana
+    plt.title('Produtividade dias da semana')
     dados = df.groupby(['day']).actual_productivity.mean()
     plt.plot(dados)
     plt.show()
 
 
     #grafico comparativo produtividade baseado nos dias da semana de cada departamento
+    plt.title('Produtividade  baseado nos dias da semana de cada departamento')
     dados = df.groupby(['day','department']).actual_productivity.mean()
     dados = dados.reset_index()
     y1 = dados.copy()
@@ -49,8 +56,8 @@ def main():
     plt.show()
 
     #grafico pizza produtividade
-    plt.title('Departamentos')
-    labels = ['Acabamento', 'Costura']
+    plt.title('Produtividade Departamentos')
+    labels = ['Costura', 'Acabamento']
     pizza = dados.groupby(['department']).actual_productivity.mean()
     plt.pie(pizza, autopct='%0.1f%%', pctdistance=1.15, labels=labels)
     plt.show()

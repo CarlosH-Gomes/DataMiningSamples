@@ -55,7 +55,7 @@ def main():
     df.to_csv(output_file, header=False, index=False)  
     
 
-def UptateMissingvalue(df, column, method="mode", number=0):
+def UptateMissingvalue(df, column, method="mean", number=0):
     if method == 'number':
         # Substituindo valores ausentes por um número
         df[column].fillna(number, inplace=True)
