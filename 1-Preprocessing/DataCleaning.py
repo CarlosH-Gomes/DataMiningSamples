@@ -2,14 +2,14 @@ import pandas as pd
 import numpy as np
 
 def main():
-    names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity'] # Nome das colunas 
-    features  = ['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity'] # Define as colunas que serão  utilizadas
+    names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity','productivity'] # Nome das colunas 
+    features  = ['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity','productivity'] # Define as colunas que serão  utilizadas
     output_file = '0-Datasets/garments_worker_productivityClear.data'
-    input_file = '0-Datasets/garments_worker_productivity.csv'
+    input_file = '0-Datasets/garments_worker_productivit.csv'
     df = pd.read_csv(input_file, # Nome do arquivo com dados
                      names = names, # Nome das colunas 
                      usecols = features, # Define as colunas que serão  utilizadas
-                     na_values='?') # Define que ? será considerado valores ausentes
+                     na_values='') # Define que ? será considerado valores ausentes
     
     df_original = df.copy()
     # Imprime as 15 primeiras linhas do arquivo
@@ -34,7 +34,7 @@ def main():
     
     # Tratando valores faltantes da coluna team
     print("VALORES FALTANTES DA COLUNA team\n")
-    print('Total valores ausentes: ' + str(df['team'].isnull().sum()))
+    print('Total valores ausentes: ' + str(df['wip'].isnull().sum()))
 
     
     columns_missing_value = df.columns[df.isnull().any()]
@@ -44,7 +44,7 @@ def main():
     for c in columns_missing_value:
         UptateMissingvalue(df, c)
     
-    print('Total valores ausentes: ' + str(df['team'].isnull().sum()))
+    print('Total valores ausentes: ' + str(df['wip'].isnull().sum()))
     print(df.describe())
     print("\n")
     print(df.head(15))
@@ -55,7 +55,7 @@ def main():
     df.to_csv(output_file, header=False, index=False)  
     
 
-def UptateMissingvalue(df, column, method="mean", number=0):
+def UptateMissingvalue(df, column, method="median", number=0):
     if method == 'number':
         # Substituindo valores ausentes por um número
         df[column].fillna(number, inplace=True)

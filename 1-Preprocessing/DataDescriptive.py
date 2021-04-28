@@ -4,7 +4,7 @@ import numpy as np
 
 def main():
      # Faz a leitura do arquivo
-    names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity'] # Nome das colunas 
+    names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity','productivity'] # Nome das colunas 
     features  = ['targeted_productivity','smv','over_time','incentive','actual_productivity'] # Define as colunas que serão  utilizadas
     input_file = '0-Datasets/garments_worker_productivityClear.data'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
