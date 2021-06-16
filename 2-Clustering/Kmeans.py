@@ -67,12 +67,12 @@ def plot_samples(projected, labels, title):
 def main():
     #Load dataset Digits
     names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity','productivity'] # Nome das colunas 
-    features  = ['targeted_productivity','smv','over_time','incentive','actual_productivity','productivity'] # Define as colunas que serão  utilizadas
+    features  = ['targeted_productivity','smv','over_time','incentive','actual_productivity'] # Define as colunas que serão  utilizadas
     input_file = '0-Datasets/garments_worker_productivityClear.data'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
                     usecols = features,
                      names = names) # Nome das colunas   
-    df.target = df['productivity']
+    df.target = df['actual_productivity']
 
   
     #Transform the data using PCA

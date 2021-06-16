@@ -21,17 +21,40 @@ def main():
     plt.hist(df[target], 5, rwidth=0.9)
     plt.show()
 
-    #Número de pessoas no time durante a semana
+
+    #Número de pessoas no time durante a semana no_of_workers
     plt.title('Número de pessoas no time durante a semana')
-    dados = df.groupby(['day']).no_of_workers.mean()
-    plt.plot(dados)
+    dados = df.groupby(['day','department']).no_of_workers.mean()
+    dados = dados.reset_index()
+    y1 = dados.copy()
+    y2 = dados.copy()
+    indexY1 = y1[ y1['department'] == 'finishing' ].index
+    y1.drop(indexY1 , inplace=True)
+    indexY2 = y2[ y2['department'] == 'sweing' ].index
+    y2.drop(indexY2 , inplace=True)
+    
+    x1 =  np.arange(len(y1['no_of_workers']))
+    x2 = [x + 0.25 for x in x1]
+    print(dados)
+    plt.bar(x1, y1['no_of_workers'],  width=0.25, label = 'finishing', color = 'b')
+    plt.bar(x2, y2['no_of_workers'],  width=0.25, label = 'sweing', color = 'y')
+    plt.legend()
+    plt.xticks([x + 0.25 for x in range(len( y1['no_of_workers']))], y2['day'])
     plt.show()
 
    
+       
     #produtividade dias da semana
+    organiza = pd.DataFrame({
+             'day': ['Monday', 'Tuesday', 'Wednesday', 'Thursday',  'Saturday', 'Sunday'],
+             'num': [0, 1, 2, 3, 4, 5]})
+
     plt.title('Produtividade dias da semana')
     dados = df.groupby(['day']).actual_productivity.mean()
-    plt.plot(dados)
+    dados = pd.merge(dados, organiza, on='day')
+    dados = dados.sort_values('num')
+    plt.plot(dados['day'],dados['actual_productivity'])
+    plt.grid()
     plt.show()
 
 
@@ -64,7 +87,13 @@ def main():
 
     dados = df.groupby(['date']).actual_productivity.mean()
     dados = dados.reset_index()
-    plt.plot(dados['actual_productivity'])
+    dados['date'] = pd.to_datetime(dados['date'])
+    dadosOrdenados = dados.sort_values(by='date')
+    print(dadosOrdenados)
+    plt.figure(figsize=(15,8))
+    plt.legend(['Produtividade'], loc = 'lower right', fontsize=15)
+    plt.plot(dadosOrdenados['date'], dadosOrdenados['actual_productivity']) 
+    plt.grid()
     plt.show()
 
 
