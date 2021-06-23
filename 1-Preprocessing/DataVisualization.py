@@ -13,19 +13,40 @@ def main():
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
                      names = names) # Nome das colunas                      
     
+
     
     plt.title('')
-    plt.xlabel('Número de trabalhadores em cada equipe')
+    plt.xlabel('Produtividade')
     plt.ylabel('Frequência Absoluta')
     #rwidth é o tamanho relativo das barras. 
-    plt.hist(df[target], 5, rwidth=0.9)
+    plt.hist(df['targeted_productivity'], 8, rwidth=0.9)
     plt.show()
 
 
+     #Número de pessoas no time durante a semana no_of_workers
+    organiza = pd.DataFrame({
+             'day': ['Monday', 'Tuesday', 'Wednesday', 'Thursday',  'Saturday', 'Sunday'],
+             'num': [0, 1, 2, 3, 4, 5]})
+
+    plt.title('Produtividade dias da semana')
+    dados = df.groupby(['day']).actual_productivity.mean()
+    dados = pd.merge(dados, organiza, on='day')
+    dados = dados.sort_values('num')
+    dados2 = df.groupby(['day']).targeted_productivity.mean()
+    dados2 = pd.merge(dados2, organiza, on='day')
+    dados2 = dados2.sort_values('num')
+    plt.plot(dados['day'],dados['actual_productivity'],'g',label='Produtividade')
+    plt.plot(dados2['day'],dados2['targeted_productivity'],'b',label='Produtividade atribuida')
+    plt.legend()
+    plt.grid()
+    
+    plt.show()
+   
     #Número de pessoas no time durante a semana no_of_workers
     plt.title('Número de pessoas no time durante a semana')
     dados = df.groupby(['day','department']).no_of_workers.mean()
     dados = dados.reset_index()
+    print(dados)
     y1 = dados.copy()
     y2 = dados.copy()
     indexY1 = y1[ y1['department'] == 'finishing' ].index
@@ -85,6 +106,7 @@ def main():
     plt.pie(pizza, autopct='%0.1f%%', pctdistance=1.15, labels=labels)
     plt.show()
 
+    #produtividade meses
     dados = df.groupby(['date']).actual_productivity.mean()
     dados = dados.reset_index()
     dados['date'] = pd.to_datetime(dados['date'])
@@ -93,6 +115,24 @@ def main():
     plt.figure(figsize=(15,8))
     plt.legend(['Produtividade'], loc = 'lower right', fontsize=15)
     plt.plot(dadosOrdenados['date'], dadosOrdenados['actual_productivity']) 
+    plt.grid()
+    plt.show()
+
+    #produtividade meses comparativa
+    dados = df.groupby(['date']).actual_productivity.mean()
+    dados = dados.reset_index()
+    dados['date'] = pd.to_datetime(dados['date'])
+    dadosOrdenados = dados.sort_values(by='date')
+    dados2 = df.groupby(['date']).targeted_productivity.mean()
+    dados2 = dados2.reset_index()
+    dados2['date'] = pd.to_datetime(dados2['date'])
+    dadosOrdenados2 = dados2.sort_values(by='date')
+   
+    plt.figure(figsize=(15,8))
+    plt.legend(['Produtividade'], loc = 'lower right', fontsize=15)
+    plt.plot(dadosOrdenados['date'], dadosOrdenados['actual_productivity'],'g',label='Produtividade')
+    plt.plot(dadosOrdenados2['date'],dadosOrdenados2['targeted_productivity'],'b',label='Produtividade atribuida')
+    plt.legend()
     plt.grid()
     plt.show()
 

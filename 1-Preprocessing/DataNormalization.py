@@ -7,9 +7,9 @@ from sklearn.preprocessing import MinMaxScaler
 def main():
     # Faz a leitura do arquivo
     names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity','productivity'] # Nome das colunas 
-    features  = ['team','targeted_productivity','smv','wip','over_time','incentive','idle_time'] # Define as colunas que serão  utilizadas
+    features  = ['team','smv','wip','over_time','incentive','idle_time'] # Define as colunas que serão  utilizadas
     input_file = '0-Datasets/garments_worker_productivityClear.data'
-    target = 'team'
+    target = 'targeted_productivity'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
                      names = names) # Nome das colunas                      
     ShowInformationDataFrame(df,"Dataframe original")

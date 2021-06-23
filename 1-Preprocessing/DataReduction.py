@@ -2,12 +2,13 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 
 def main():
      # Faz a leitura do arquivo
     names =['date','quarter','department','day','team','targeted_productivity','smv','wip','over_time','incentive','idle_time','idle_men','no_of_style_change','no_of_workers','actual_productivity','productivity'] # Nome das colunas 
-    features  = ['targeted_productivity','smv','over_time','incentive','actual_productivity'] # Define as colunas que serão  utilizadas
+    features  = ['targeted_productivity','smv','over_time','actual_productivity'] # Define as colunas que serão  utilizadas
     input_file = '0-Datasets/garments_worker_productivityClear.data'
     target = 'productivity'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
@@ -21,7 +22,7 @@ def main():
     y = df.loc[:,[target]].values
 
     # Standardizing the features
-    x = StandardScaler().fit_transform(x)
+    x = MinMaxScaler().fit_transform(x)
     normalizedDf = pd.DataFrame(data = x, columns = features)
     normalizedDf = pd.concat([normalizedDf, df[[target]]], axis = 1)
     ShowInformationDataFrame(normalizedDf,"Dataframe Normalized")
